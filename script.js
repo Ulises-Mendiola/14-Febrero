@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Night Sky Configuration
     const CONFIG = {
         flowers: {
-            count: 12,
+            count: 8,
             stemColor: '#2d5016',
             leafColor: '#4caf50',
             petalColors: ['#ff1744', '#ff5177', '#ff8a9a', '#ff6b9d']
@@ -736,11 +736,11 @@ document.addEventListener('DOMContentLoaded', () => {
         photoElement.id = 'photo-carousel';
         photoElement.style.cssText = `
             position: fixed;
-            top: 55%;
+            top: 65%;
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: 85vw;
-            max-height: 45vh;
+            max-height: 40vh;
             width: auto;
             height: auto;
             object-fit: contain;
@@ -749,7 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
             border: 3px solid rgba(255, 255, 255, 0.5);
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            z-index: 100;
+            z-index: 1;
         `;
 
         container.appendChild(photoElement);

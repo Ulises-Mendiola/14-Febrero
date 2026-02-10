@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.targetHeight = height;
             this.currentHeight = 0;
             this.petalCount = petalCount;
-            this.petalSize = 15 + Math.random() * 10;
+            this.petalSize = 10 + Math.random() * 8;
             this.petalColor = CONFIG.flowers.petalColors[Math.floor(Math.random() * CONFIG.flowers.petalColors.length)];
             this.swayOffset = Math.random() * Math.PI * 2;
             this.swaySpeed = 0.02 + Math.random() * 0.01;
@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
         photoElement.id = 'photo-carousel';
         photoElement.style.cssText = `
             position: fixed;
-            top: calc(75% - 60px);
+            top: calc(75% - 120px);
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: 85vw;
@@ -966,7 +966,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const flowerSpacing = width / (CONFIG.flowers.count + 1);
         for (let i = 0; i < CONFIG.flowers.count; i++) {
             const x = flowerSpacing * (i + 1) + (Math.random() - 0.5) * 40;
-            const flowerHeight = 120 + Math.random() * 100;
+            const flowerHeight = 80 + Math.random() * 80;
             const petalCount = 5 + Math.floor(Math.random() * 3);
             flowers.push(new Flower(x, height, flowerHeight, petalCount));
         }

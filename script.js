@@ -71,14 +71,26 @@ document.addEventListener('DOMContentLoaded', () => {
         "Me haces tan feliz 😊"
     ];
 
-    // Resize Canvas
+    // Resize Canvas with DPR Support
     function resize() {
+        const dpr = window.devicePixelRatio || 1;
         width = window.innerWidth;
         height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
+
+        // Ajustar el tamaño del buffer del canvas
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+
+        // Ajustar el tamaño visual mediante CSS
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+
+        // Escalar todo el contexto de dibujo
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
         CONFIG.constellation.centerX = width / 2;
         CONFIG.constellation.centerY = height / 2;
+        console.log(`Canvas resized to ${width}x${height} (DPR: ${dpr})`);
     }
     window.addEventListener('resize', resize);
     resize();
@@ -102,27 +114,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    canvas.addEventListener('click', (e) => {
+    // Use pointerdown for better mobile responsiveness
+    canvas.addEventListener('pointerdown', (e) => {
         if (!skyActive) return;
 
         const rect = canvas.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
         const clickY = e.clientY - rect.top;
 
-        // Check flowers first
+        // Check flowers first with slightly larger hitbox for mobile
+        const mobileHitboxBonus = 15;
         for (let i = flowers.length - 1; i >= 0; i--) {
             const flower = flowers[i];
-            if (flower.containsPoint(clickX, clickY)) {
+            const dx = clickX - (flower.x + (Math.sin(animationTime * flower.swaySpeed + flower.swayOffset) * 8));
+            const dy = clickY - (flower.baseY - flower.currentHeight);
+            if (Math.sqrt(dx * dx + dy * dy) < (flower.petalSize * 1.5 + mobileHitboxBonus)) {
                 flower.onClick();
                 showMessagePopup(ROMANTIC_MESSAGES[Math.floor(Math.random() * ROMANTIC_MESSAGES.length)]);
                 return;
             }
         }
 
-        // Check stars
+        // Check stars with slightly larger hitbox
         for (let i = stars.length - 1; i >= 0; i--) {
             const star = stars[i];
-            if (star.containsPoint(clickX, clickY)) {
+            const dx = clickX - star.x;
+            const dy = clickY - star.y;
+            if (Math.sqrt(dx * dx + dy * dy) < (star.size * 3 + mobileHitboxBonus)) {
                 star.onClick();
                 showMessagePopup(ROMANTIC_MESSAGES[Math.floor(Math.random() * ROMANTIC_MESSAGES.length)]);
                 return;
@@ -718,13 +736,14 @@ document.addEventListener('DOMContentLoaded', () => {
         photoElement.id = 'photo-carousel';
         photoElement.style.cssText = `
             position: fixed;
-            top: calc(50% + 15px);
+            top: 55%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 400px;
-            max-height: 400px;
+            max-width: 85vw;
+            max-height: 45vh;
             width: auto;
             height: auto;
+            object-fit: contain;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
             border: 3px solid rgba(255, 255, 255, 0.5);
@@ -852,7 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const translateX = (Math.random() - 0.5) * 20;
                 const translateY = (Math.random() - 0.5) * 20;
 
-                photoElement.style.transform = `translate(calc(-50% + ${translateX}px), calc(-50% + ${translateY}px)) scale(${scale})`;
+                photoElement.style.transform = `translate(calc(-50 % + ${translateX}px), calc(-50 % + ${translateY}px)) scale(${scale})`;
 
                 setTimeout(() => {
                     photoElement.style.transition = 'transform 0.5s';

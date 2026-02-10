@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
         photoElement.id = 'photo-carousel';
         photoElement.style.cssText = `
             position: fixed;
-            top: calc(75% - 60px);
+            top: calc(75% - 120px);
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: 85vw;

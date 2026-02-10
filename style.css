@@ -143,16 +143,16 @@ canvas {
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(20px) saturate(200%);
     -webkit-backdrop-filter: blur(20px) saturate(200%);
-    padding: 28px 30px;
-    border-radius: 24px;
+    padding: 16px 18px;
+    border-radius: 20px;
     box-shadow:
         0 8px 32px rgba(255, 51, 102, 0.25),
         0 2px 8px rgba(0, 0, 0, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.9),
         inset 0 -1px 0 rgba(255, 51, 102, 0.1);
     max-width: 90%;
-    width: 420px;
-    margin: 20px auto 0;
+    width: 100%;
+    margin: 10px auto 0;
     opacity: 0;
     transform: translateY(-40px) scale(0.92);
     transition: all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -167,13 +167,13 @@ canvas {
 }
 
 .typewriter-text {
-    font-size: 1.1em;
+    font-size: 0.9em;
     font-weight: 400;
     color: #ffffff;
     letter-spacing: -0.015em;
-    line-height: 1.65;
-    min-height: 70px;
-    margin-bottom: 18px;
+    line-height: 1.55;
+    min-height: 60px;
+    margin-bottom: 12px;
     text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
 }
 
@@ -233,6 +233,38 @@ canvas {
 }
 
 /* Mobile First Adjustments */
+
+/* Small phones (Samsung Galaxy S series, iPhone SE, etc.) */
+@media (max-width: 380px) {
+    .message-card {
+        padding: 12px 14px;
+        max-width: 95%;
+    }
+
+    .typewriter-text {
+        font-size: 0.85em;
+        min-height: 50px;
+    }
+
+    .counter {
+        font-size: 0.75em;
+    }
+}
+
+/* Medium phones (Samsung S21, S22, most modern phones) */
+@media (min-width: 381px) and (max-width: 767px) {
+    .message-card {
+        padding: 16px 18px;
+        max-width: 92%;
+    }
+
+    .typewriter-text {
+        font-size: 0.95em;
+        min-height: 55px;
+    }
+}
+
+/* Tablets and Desktop */
 @media (min-width: 768px) {
     #ui-layer {
         flex-direction: row;
@@ -245,5 +277,13 @@ canvas {
         margin: 0;
         margin-left: 5%;
         margin-top: 10%;
+        width: 420px;
+        padding: 28px 30px;
+    }
+
+    .typewriter-text {
+        font-size: 1.1em;
+        min-height: 70px;
+        margin-bottom: 18px;
     }
 }

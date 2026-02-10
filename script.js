@@ -79,40 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.height = height;
         CONFIG.constellation.centerX = width / 2;
         CONFIG.constellation.centerY = height / 2;
-
-        // Reposition photo if it exists
-        repositionPhoto();
     }
     window.addEventListener('resize', resize);
     resize();
-
-    // Reposition photo carousel for responsive design
-    function repositionPhoto() {
-        if (!photoElement) return;
-
-        const isMobile = window.innerWidth < 768;
-        const isSmallMobile = window.innerWidth < 400;
-
-        if (isMobile) {
-            photoElement.style.top = 'auto';
-            photoElement.style.bottom = isSmallMobile ? '15%' : '20%';
-            photoElement.style.left = '50%';
-            photoElement.style.transform = 'translateX(-50%)';
-            photoElement.style.maxWidth = isSmallMobile ? '280px' : '320px';
-            photoElement.style.maxHeight = isSmallMobile ? '280px' : '320px';
-            photoElement.style.width = '85%';
-            photoElement.style.borderRadius = '16px';
-        } else {
-            photoElement.style.top = 'calc(50% + 15px)';
-            photoElement.style.bottom = 'auto';
-            photoElement.style.left = '50%';
-            photoElement.style.transform = 'translate(-50%, -50%)';
-            photoElement.style.maxWidth = '400px';
-            photoElement.style.maxHeight = '400px';
-            photoElement.style.width = 'auto';
-            photoElement.style.borderRadius = '20px';
-        }
-    }
 
     // Event Listeners
     if (startBtn) {
@@ -747,49 +716,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function createPhotoCarousel() {
         photoElement = document.createElement('img');
         photoElement.id = 'photo-carousel';
-
-        // Responsive positioning based on screen size
-        const isMobile = window.innerWidth < 768;
-        const isSmallMobile = window.innerWidth < 400;
-
-        if (isMobile) {
-            // Mobile: Position in lower center to avoid overlapping message card
-            photoElement.style.cssText = `
-                position: fixed;
-                top: auto;
-                bottom: ${isSmallMobile ? '15%' : '20%'};
-                left: 50%;
-                transform: translateX(-50%);
-                max-width: ${isSmallMobile ? '280px' : '320px'};
-                max-height: ${isSmallMobile ? '280px' : '320px'};
-                width: 85%;
-                height: auto;
-                border-radius: 16px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
-                border: 3px solid rgba(255, 255, 255, 0.5);
-                opacity: 0;
-                transition: opacity 1s ease-in-out;
-                z-index: 100;
-            `;
-        } else {
-            // Desktop: Original centered position
-            photoElement.style.cssText = `
-                position: fixed;
-                top: calc(50% + 15px);
-                left: 50%;
-                transform: translate(-50%, -50%);
-                max-width: 400px;
-                max-height: 400px;
-                width: auto;
-                height: auto;
-                border-radius: 20px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
-                border: 3px solid rgba(255, 255, 255, 0.5);
-                opacity: 0;
-                transition: opacity 1s ease-in-out;
-                z-index: 100;
-            `;
-        }
+        photoElement.style.cssText = `
+            position: fixed;
+            top: calc(50% + 15px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 400px;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 100;
+        `;
 
         container.appendChild(photoElement);
 

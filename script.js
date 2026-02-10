@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
         photoElement.id = 'photo-carousel';
         photoElement.style.cssText = `
             position: fixed;
-            top: 65%;
+            top: 75%;
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: 85vw;
@@ -871,7 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const translateX = (Math.random() - 0.5) * 20;
                 const translateY = (Math.random() - 0.5) * 20;
 
-                photoElement.style.transform = `translate(calc(-50 % + ${translateX}px), calc(-50 % + ${translateY}px)) scale(${scale})`;
+                photoElement.style.transform = `translate(calc(-50% + ${translateX}px), calc(-50% + ${translateY}px)) scale(${scale})`;
 
                 setTimeout(() => {
                     photoElement.style.transition = 'transform 0.5s';
@@ -902,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
         newPhoto.src = newSrc;
         newPhoto.style.cssText = photoElement.style.cssText;
         newPhoto.style.opacity = '0';
-        newPhoto.style.zIndex = '101';
+        newPhoto.style.zIndex = '2';
 
         container.appendChild(newPhoto);
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para el amor de mi vida</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Pantalla Inicial -->
+    <div id="initial-screen">
+        <div class="heart-btn" id="start-btn">❤</div>
+    </div>
+
+    <!-- Música de fondo -->
+    <audio id="background-music" loop>
+        <source src="music/Ed Sheeran - Perfect.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <!-- Contenido Principal -->
+    <div id="container">
+        <!-- Capa de Dibujo (Árbol) -->
+        <canvas id="treeCanvas"></canvas>
+
+        <!-- Capa de Interfaz (Texto) -->
+        <div id="ui-layer">
+            <div class="message-card" id="message-card">
+                <p class="typewriter-text" id="typewriter"></p>
+                <div class="counter" id="counter-content">
+                    Calculando nuestro tiempo juntos...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

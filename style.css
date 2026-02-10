@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    --bg-color: #ffe6eb;
+    --heart-color: #ff3366;
+    --heart-dark: #cc0033;
+    --heart-light: #ff6688;
+    --trunk-start: #4a3428;
+    --trunk-mid: #5d4037;
+    --trunk-end: #3e2723;
+    --text-color: #1d1d1f;
+    --accent-color: #ff3366;
+    --glass-bg: rgba(255, 255, 255, 0.25);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000000;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    transition: background-color 2s ease-in-out;
+    /* Transición suave del fondo */
+}
+
+body.initial {
+    background:
+        url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 50 C20 40, 10 30, 10 20 C10 12, 15 8, 20 8 C25 8, 28 12, 30 16 C32 12, 35 8, 40 8 C45 8, 50 12, 50 20 C50 30, 40 40, 30 50 Z' fill='%23ff9eb5' opacity='0.15'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 65 C28 53, 13 40, 13 26 C13 16, 20 10, 27 10 C33 10, 37 16, 40 22 C43 16, 47 10, 53 10 C60 10, 67 16, 67 26 C67 40, 52 53, 40 65 Z' fill='%23ffb3c6' opacity='0.12'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, #ffe6f0 0%, #ffd4e5 50%, #ffccd9 100%);
+    background-size: 60px 60px, 80px 80px, 100%;
+    background-position: 0 0, 30px 30px, 0 0;
+}
+
+/* Initial Screen */
+#initial-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 50 C20 40, 10 30, 10 20 C10 12, 15 8, 20 8 C25 8, 28 12, 30 16 C32 12, 35 8, 40 8 C45 8, 50 12, 50 20 C50 30, 40 40, 30 50 Z' fill='%23ff9eb5' opacity='0.15'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 65 C28 53, 13 40, 13 26 C13 16, 20 10, 27 10 C33 10, 37 16, 40 22 C43 16, 47 10, 53 10 C60 10, 67 16, 67 26 C67 40, 52 53, 40 65 Z' fill='%23ffb3c6' opacity='0.12'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, #ffe6f0 0%, #ffd4e5 50%, #ffccd9 100%);
+    background-size: 60px 60px, 80px 80px, 100%;
+    background-position: 0 0, 30px 30px, 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 1s ease, visibility 1s;
+}
+
+.heart-btn {
+    font-size: 100px;
+    color: var(--heart-color);
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+    position: relative;
+    filter: drop-shadow(0 0 15px rgba(255, 51, 102, 0.6));
+    transition: transform 0.3s;
+    user-select: none;
+}
+
+.heart-btn:active {
+    transform: scale(0.9);
+}
+
+.heart-btn::after {
+    content: 'Abrir';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+    font-family: Arial, sans-serif;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Main Content */
+#container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: none;
+    /* Hidden initially */
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /* Behind UI */
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+    cursor: pointer;
+}
+
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    /* Above canvas */
+    pointer-events: none;
+    /* Let clicks pass through to canvas if needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.message-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    padding: 28px 30px;
+    border-radius: 24px;
+    box-shadow:
+        0 8px 32px rgba(255, 51, 102, 0.25),
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(255, 51, 102, 0.1);
+    max-width: 90%;
+    width: 420px;
+    margin: 20px auto 0;
+    opacity: 0;
+    transform: translateY(-40px) scale(0.92);
+    transition: all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    z-index: 200;
+    position: relative;
+}
+
+.message-card.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.typewriter-text {
+    font-size: 1.1em;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: -0.015em;
+    line-height: 1.65;
+    min-height: 70px;
+    margin-bottom: 18px;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+.counter {
+    border-top: 1.5px solid rgba(255, 51, 102, 0.4);
+    padding-top: 16px;
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 500;
+}
+
+.counter-value {
+    display: block;
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-top: 6px;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+}
+
+/* Message Popup */
+.message-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.45) 0%,
+            rgba(255, 255, 255, 0.3) 100%);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    padding: 24px 36px;
+    border-radius: 20px;
+    box-shadow:
+        0 12px 40px rgba(255, 51, 102, 0.35),
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    font-size: 1.4em;
+    font-weight: 500;
+    color: var(--text-color);
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1000;
+    max-width: 85%;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
+}
+
+.message-popup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Mobile First Adjustments */
+@media (min-width: 768px) {
+    #ui-layer {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 40px;
+    }
+
+    .message-card {
+        margin: 0;
+        margin-left: 5%;
+        margin-top: 10%;
+    }
+}

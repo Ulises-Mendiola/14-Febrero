@@ -122,30 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const clickX = e.clientX - rect.left;
         const clickY = e.clientY - rect.top;
 
-        // Check flowers first with slightly larger hitbox for mobile
-        const mobileHitboxBonus = 15;
-        for (let i = flowers.length - 1; i >= 0; i--) {
-            const flower = flowers[i];
-            const dx = clickX - (flower.x + (Math.sin(animationTime * flower.swaySpeed + flower.swayOffset) * 8));
-            const dy = clickY - (flower.baseY - flower.currentHeight);
-            if (Math.sqrt(dx * dx + dy * dy) < (flower.petalSize * 1.5 + mobileHitboxBonus)) {
-                flower.onClick();
-                showMessagePopup(ROMANTIC_MESSAGES[Math.floor(Math.random() * ROMANTIC_MESSAGES.length)]);
-                return;
-            }
-        }
-
-        // Check stars with slightly larger hitbox
-        for (let i = stars.length - 1; i >= 0; i--) {
-            const star = stars[i];
-            const dx = clickX - star.x;
-            const dy = clickY - star.y;
-            if (Math.sqrt(dx * dx + dy * dy) < (star.size * 3 + mobileHitboxBonus)) {
-                star.onClick();
-                showMessagePopup(ROMANTIC_MESSAGES[Math.floor(Math.random() * ROMANTIC_MESSAGES.length)]);
-                return;
-            }
-        }
+        // Interaction removed as requested by user.
+        return;
     });
 
     // Drop Animation
@@ -606,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.leaves.push({
                     heightRatio: 0.3 + Math.random() * 0.4,
                     side: Math.random() < 0.5 ? -1 : 1,
-                    size: 8 + Math.random() * 6
+                    size: 6 + Math.random() * 4
                 });
             }
         }
@@ -1036,7 +1014,38 @@ document.addEventListener('DOMContentLoaded', () => {
             flower.draw(ctx, animationTime);
         });
 
+        // Draw special message above flowers
+        drawFlowerMessage();
+
         requestAnimationFrame(animateNightSky);
+    }
+
+    function drawFlowerMessage() {
+        ctx.save();
+
+        // Responsive font size
+        const fontSize = Math.min(width * 0.06, 28);
+        ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 10;
+
+        const lines = [
+            "Gracias por",
+            "Hacerme feliz",
+            "estos 8 Meses"
+        ];
+
+        const lineHeight = fontSize * 1.25;
+        // Position message above the ground/flowers level
+        const baseY = height - 220;
+
+        lines.forEach((line, index) => {
+            ctx.fillText(line, width / 2, baseY + (index * lineHeight));
+        });
+
+        ctx.restore();
     }
 
     // Message Popup
@@ -1114,21 +1123,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Counter
     const startDate = new Date('2025-07-06T22:15:00');
+    const endDate = new Date('2026-03-07T19:10:00');
 
     function updateCounter() {
         if (!counterElement) return;
 
         const now = new Date();
-        const diff = now - startDate;
+        // Use endDate if current time is past endDate or use now for dynamic counting
+        // However, the user asked for the span between start and end.
+        // Let's calculate the span until endDate is reached.
+        const currentRef = now > endDate ? endDate : now;
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        // Calculation for Months and Days
+        let years = currentRef.getFullYear() - startDate.getFullYear();
+        let months = currentRef.getMonth() - startDate.getMonth();
+        let days = currentRef.getDate() - startDate.getDate();
+
+        if (days < 0) {
+            months--;
+            // Substract days from the previous month
+            const prevMonth = new Date(currentRef.getFullYear(), currentRef.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        const totalMonths = years * 12 + months;
+
+        // Time calculation
+        const diff = currentRef - startDate;
+        const totalSeconds = Math.floor(diff / 1000);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
         counterElement.innerHTML = `
-            <span class="counter-value">${days} Días</span>
-            <span class="counter-value">${hours} Hrs ${minutes} Min ${seconds} Seg</span>
+            <div class="counter-dates">
+                <span class="date-label">Inicio: 06/07/2025 22:15</span>
+                <span class="date-label">Fin: 07/03/2026 19:10</span>
+            </div>
+            <span class="counter-value">${totalMonths} Meses y ${days} Días</span>
+            <span class="counter-value">${minutes} Minutos</span>
         `;
     }
 

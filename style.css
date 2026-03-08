@@ -196,6 +196,23 @@ canvas {
     color: #ffffff;
 }
 
+.counter-dates {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.8em;
+    opacity: 0.9;
+}
+
+.date-label {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
+}
+
 /* Message Popup */
 .message-popup {
     position: fixed;
